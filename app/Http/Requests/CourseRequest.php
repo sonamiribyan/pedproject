@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Rules\NoSpecialSymbolsRule;
 class CourseRequest extends FormRequest
 {
     /**
@@ -22,7 +22,7 @@ class CourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => ['required','string','max:255',new NoSpecialSymbolsRule],
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
