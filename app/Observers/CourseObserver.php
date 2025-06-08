@@ -4,7 +4,8 @@ namespace App\Observers;
 
 use App\Models\Course;
 use Illuminate\Support\Facades\Log;
-
+use App\Jobs\SendCourseCreatedEmail;
+use App\Events\CourseCreated;
 class CourseObserver
 {
     /**
@@ -12,7 +13,8 @@ class CourseObserver
      */
     public function created(Course $course): void
     {
-        Log::info($course);
+        event(new CourseCreated($course));
+        SendCourseCreatedEmail::dispatch($course);
     }
 
     /**
